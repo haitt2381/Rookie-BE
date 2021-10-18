@@ -24,16 +24,20 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(tags = { "user" },summary = "Create a user",
+                description = "Returns a user created")
     @PostMapping("")
     public ResponseEntity<User> createUser(@RequestBody User user){
         try {
             User _user = userService.save(user);
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         }catch (Exception e){
+            e.printStackTrace();
             return  new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(tags = { "user" },
+                summary = "Find all users",description = "Returns a list users")
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(){
         try{
@@ -48,17 +52,11 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Find user by username",
-                description = "Returns a user, this can only be done by admin",
-                tags = { "user" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
-                            content = @Content(schema = @Schema(implementation = User.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Username not found", content = @Content) })
+    @Operation(tags = { "user" },summary = "Find user by username",
+                description = "Returns a user")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") String id){
-        User userData = userService.findById(id);
+        User userData = userService.findById(Integer.parseInt(id));
         if(userData != null){
             return new ResponseEntity<>(userData, HttpStatus.OK);
         }else{
@@ -66,9 +64,11 @@ public class UserController {
         }
     }
 
+    @Operation(tags = { "user" },summary = "Update by username",
+                description = "Returns a user updated")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user){
-        User _user = userService.findById(id);
+        User _user = userService.findById(Integer.parseInt(id));
 
         if(_user != null){
             return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
@@ -77,10 +77,12 @@ public class UserController {
         }
     }
 
+    @Operation(tags = { "user" },summary = "Delete by username",
+                description = "Returns no_")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") String id){
         try{
-            userService.deleteById(id);
+            userService.deleteById(Integer.parseInt(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
