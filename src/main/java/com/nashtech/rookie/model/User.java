@@ -30,7 +30,7 @@ public class User {
     private String lastName;
 
     @Column(name = "gender")
-    private String gender;
+    private boolean gender;
 
     @Column(name = "email")
     private String email;

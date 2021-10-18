@@ -2,7 +2,11 @@ package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.model.User;
 import com.nashtech.rookie.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +48,14 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Find user by username",
+                description = "Returns a user, this can only be done by admin",
+                tags = { "user" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                            content = @Content(schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Username not found", content = @Content) })
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") String id){
         User userData = userService.findById(id);

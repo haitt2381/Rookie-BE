@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
+//@SpringBootTest
 public class UserServiceTest {
     @Mock
     UserService iUserService;
@@ -25,6 +25,6 @@ public class UserServiceTest {
 
     @Test
     void whenGetAll_shouldReturnList(){
-        System.out.println(userService.getAllUser());
+//        System.out.println(userService.getAllUser());
     }
 }
