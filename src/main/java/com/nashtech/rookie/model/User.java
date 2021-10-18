@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,4 +42,17 @@ public class User {
 
     @Column(name = "image")
     private String image;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
+
+    public void addRole(Role role) {
+        if(roles == null){
+            roles = new ArrayList<Role>();
+        }
+        this.roles.add(role);
+    }
 }
