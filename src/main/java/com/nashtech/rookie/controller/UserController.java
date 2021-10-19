@@ -1,12 +1,8 @@
 package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.model.User;
-import com.nashtech.rookie.service.UserService;
+import com.nashtech.rookie.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    UserService userService;
+    IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
@@ -41,8 +37,7 @@ public class UserController {
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(){
         try{
-            List<User> users = new ArrayList<>();
-            users = userService.findAll();
+            List<User> users = userService.findAll();
             if(users.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
