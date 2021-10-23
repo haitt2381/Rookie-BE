@@ -22,12 +22,7 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication){
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+        return generateTokenFromUsername(userPrincipal.getUsername());
     }
 
     public String getUserNameFromJwtToken(String token){
@@ -57,5 +52,11 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public String generateTokenFromUsername(String username) {
+        return Jwts.builder().setSubject(username).setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 }

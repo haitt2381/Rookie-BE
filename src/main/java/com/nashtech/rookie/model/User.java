@@ -52,6 +52,13 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     public User(String username, String email, String encode) {
+        this.username = username;
+        this.email = email;
+        this.password = encode;
+        this.firstName = "test";
+        this.lastName="test";
+        this.gender = true;
+        this.image = "image";
     }
 
     public void addRole(Role role) {

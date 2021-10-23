@@ -1,14 +1,19 @@
 package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.jwt.JwtUtils;
+import com.nashtech.rookie.jwt.exception.TokenRefreshException;
+import com.nashtech.rookie.model.RefreshToken;
 import com.nashtech.rookie.model.Role;
 import com.nashtech.rookie.model.User;
 import com.nashtech.rookie.payload.request.LoginRequest;
 import com.nashtech.rookie.payload.request.SignupRequest;
+import com.nashtech.rookie.payload.request.TokenRefreshRequest;
 import com.nashtech.rookie.payload.response.JwtResponse;
 import com.nashtech.rookie.payload.response.MessageResponse;
+import com.nashtech.rookie.payload.response.TokenRefreshResponse;
 import com.nashtech.rookie.repository.RoleRepository;
 import com.nashtech.rookie.repository.UserRepository;
+import com.nashtech.rookie.service.IRefreshTokenService;
 import com.nashtech.rookie.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +50,9 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    IRefreshTokenService refreshTokenService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -59,11 +67,29 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        RefreshToken  refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
         return ResponseEntity.ok(new JwtResponse(jwt,
+                refreshToken.getToken(),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
 
     @PostMapping("/signup")
