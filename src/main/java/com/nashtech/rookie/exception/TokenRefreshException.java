@@ -1,4 +1,4 @@
-package com.nashtech.rookie.jwt.exception;
+package com.nashtech.rookie.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

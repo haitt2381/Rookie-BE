@@ -1,6 +1,6 @@
-package com.nashtech.rookie.jwt.advice;
+package com.nashtech.rookie.advice;
 
-import com.nashtech.rookie.jwt.exception.TokenRefreshException;
+import com.nashtech.rookie.exception.TokenRefreshException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

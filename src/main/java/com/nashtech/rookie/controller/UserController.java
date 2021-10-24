@@ -12,15 +12,14 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/admin/users")
 public class UserController {
     IUserService userService;
-
     public UserController(IUserService userService) {
         this.userService = userService;
     }
 
-    @Operation(tags = { "user" },summary = "Create a user",
+    @Operation(summary = "Create a user",
                 description = "Returns a user created")
     @PostMapping("")
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -32,8 +31,7 @@ public class UserController {
             return  new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(tags = { "user" },
-                summary = "Find all users",description = "Returns a list users")
+    @Operation(summary = "Find all users",description = "Returns a list users")
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(){
         try{
@@ -47,7 +45,7 @@ public class UserController {
         }
     }
 
-    @Operation(tags = { "user" },summary = "Find user by username",
+    @Operation(summary = "Find user by username",
                 description = "Returns a user")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") String id){
@@ -59,7 +57,7 @@ public class UserController {
         }
     }
 
-    @Operation(tags = { "user" },summary = "Update by username",
+    @Operation(summary = "Update by username",
                 description = "Returns a user updated")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user){
@@ -72,7 +70,7 @@ public class UserController {
         }
     }
 
-    @Operation(tags = { "user" },summary = "Delete by username",
+    @Operation(summary = "Delete by username",
                 description = "Returns no_")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") String id){

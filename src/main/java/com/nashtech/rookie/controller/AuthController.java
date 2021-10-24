@@ -1,7 +1,7 @@
 package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.jwt.JwtUtils;
-import com.nashtech.rookie.jwt.exception.TokenRefreshException;
+import com.nashtech.rookie.exception.TokenRefreshException;
 import com.nashtech.rookie.model.RefreshToken;
 import com.nashtech.rookie.model.Role;
 import com.nashtech.rookie.model.User;
@@ -53,8 +53,10 @@ public class AuthController {
     @Autowired
     IRefreshTokenService refreshTokenService;
 
-    @PostMapping("/signin")
+    @PostMapping("/signIn")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+        System.out.println(loginRequest);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -77,7 +79,7 @@ public class AuthController {
                 roles));
     }
 
-    @PostMapping("/refreshtoken")
+    @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
 

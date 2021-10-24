@@ -1,6 +1,6 @@
 package com.nashtech.rookie.service;
 
-import com.nashtech.rookie.jwt.exception.TokenRefreshException;
+import com.nashtech.rookie.exception.TokenRefreshException;
 import com.nashtech.rookie.model.RefreshToken;
 import com.nashtech.rookie.repository.RefreshTokenRepository;
 import com.nashtech.rookie.repository.UserRepository;

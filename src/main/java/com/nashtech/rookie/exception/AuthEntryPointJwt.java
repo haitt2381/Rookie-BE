@@ -1,4 +1,4 @@
-package com.nashtech.rookie.jwt.exception;
+package com.nashtech.rookie.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.nashtech.rookie.jwt.advice;
+package com.nashtech.rookie.advice;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
