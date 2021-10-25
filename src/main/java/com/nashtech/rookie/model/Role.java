@@ -1,16 +1,16 @@
 package com.nashtech.rookie.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.web.bind.annotation.Mapping;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 
 @Entity
 @Table(name = "roles")
@@ -22,6 +22,4 @@ public class Role {
 
     @Column(name = "name")
     private String name;
-
-
 }
