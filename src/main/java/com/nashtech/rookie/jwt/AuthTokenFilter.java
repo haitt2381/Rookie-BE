@@ -1,8 +1,6 @@
 package com.nashtech.rookie.jwt;
 
-import com.nashtech.rookie.service.UserDetailsServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.nashtech.rookie.service.Impl.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

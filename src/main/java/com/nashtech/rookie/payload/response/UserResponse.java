@@ -1,6 +1,6 @@
 package com.nashtech.rookie.payload.response;
 
-import com.nashtech.rookie.model.Role;
+import com.nashtech.rookie.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

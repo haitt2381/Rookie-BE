@@ -1,9 +1,10 @@
-package com.nashtech.rookie.service;
+package com.nashtech.rookie.service.Impl;
 
 import com.nashtech.rookie.exception.TokenRefreshException;
-import com.nashtech.rookie.model.RefreshToken;
+import com.nashtech.rookie.entity.RefreshToken;
 import com.nashtech.rookie.repository.RefreshTokenRepository;
 import com.nashtech.rookie.repository.UserRepository;
+import com.nashtech.rookie.service.IRefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class RefreshTokenServiceImpl implements IRefreshTokenService{
+public class RefreshTokenServiceImpl implements IRefreshTokenService {
 
     @Value("${rookie.app.jwtRefestExpirationMs}")
     private Long refreshTokenDurationMs;

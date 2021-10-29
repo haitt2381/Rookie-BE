@@ -1,12 +1,13 @@
-package com.nashtech.rookie.service;
+package com.nashtech.rookie.service.Impl;
 
-import com.nashtech.rookie.model.Role;
+import com.nashtech.rookie.entity.Role;
 import com.nashtech.rookie.repository.RoleRepository;
+import com.nashtech.rookie.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class RoleServiceImpl implements IRoleService{
+public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private RoleRepository roleRepository;

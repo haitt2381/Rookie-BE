@@ -1,10 +1,8 @@
-package com.nashtech.rookie.model;
+package com.nashtech.rookie.entity;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.Mapping;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter

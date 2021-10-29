@@ -3,7 +3,7 @@ package com.nashtech.rookie.config;
 
 import com.nashtech.rookie.exception.AuthEntryPointJwt;
 import com.nashtech.rookie.jwt.AuthTokenFilter;
-import com.nashtech.rookie.service.UserDetailsServiceImpl;
+import com.nashtech.rookie.service.Impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

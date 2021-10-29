@@ -1,6 +1,6 @@
 package com.nashtech.rookie.service;
 
-import com.nashtech.rookie.model.RefreshToken;
+import com.nashtech.rookie.entity.RefreshToken;
 
 import java.util.Optional;
 

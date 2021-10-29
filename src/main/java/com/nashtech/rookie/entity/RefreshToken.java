@@ -1,4 +1,4 @@
-package com.nashtech.rookie.model;
+package com.nashtech.rookie.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

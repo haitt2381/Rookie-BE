@@ -1,7 +1,7 @@
 package com.nashtech.rookie.repository;
 
-import com.nashtech.rookie.model.RefreshToken;
-import com.nashtech.rookie.model.User;
+import com.nashtech.rookie.entity.RefreshToken;
+import com.nashtech.rookie.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

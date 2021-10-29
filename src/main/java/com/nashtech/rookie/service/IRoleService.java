@@ -1,6 +1,6 @@
 package com.nashtech.rookie.service;
 
-import com.nashtech.rookie.model.Role;
+import com.nashtech.rookie.entity.Role;
 
 import java.util.List;
 

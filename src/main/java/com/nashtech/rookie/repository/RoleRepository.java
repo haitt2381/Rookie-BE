@@ -1,6 +1,6 @@
 package com.nashtech.rookie.repository;
 
-import com.nashtech.rookie.model.Role;
+import com.nashtech.rookie.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

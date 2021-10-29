@@ -1,10 +1,9 @@
-package com.nashtech.rookie.service;
+package com.nashtech.rookie.service.Impl;
 
-import com.nashtech.rookie.model.User;
+import com.nashtech.rookie.entity.User;
 import com.nashtech.rookie.payload.response.UserResponse;
 import com.nashtech.rookie.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.nashtech.rookie.service;
+package com.nashtech.rookie.service.Impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nashtech.rookie.model.User;
+import com.nashtech.rookie.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

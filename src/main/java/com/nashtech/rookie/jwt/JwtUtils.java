@@ -1,6 +1,6 @@
 package com.nashtech.rookie.jwt;
 
-import com.nashtech.rookie.service.UserDetailsImpl;
+import com.nashtech.rookie.service.Impl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

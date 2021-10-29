@@ -1,10 +1,9 @@
 package com.nashtech.rookie.controller;
 
-import com.nashtech.rookie.model.User;
+import com.nashtech.rookie.entity.User;
 import com.nashtech.rookie.payload.response.UserResponse;
-import com.nashtech.rookie.service.UserService;
+import com.nashtech.rookie.service.Impl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
