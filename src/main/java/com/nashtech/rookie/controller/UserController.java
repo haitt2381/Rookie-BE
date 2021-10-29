@@ -2,7 +2,8 @@ package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.entity.User;
 import com.nashtech.rookie.payload.response.UserResponse;
-import com.nashtech.rookie.service.Impl.UserService;
+import com.nashtech.rookie.service.IUserService;
+import com.nashtech.rookie.service.Impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/users")
 public class UserController {
-    UserService userService;
+    IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

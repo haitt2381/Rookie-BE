@@ -33,7 +33,6 @@ public class Category {
   @JoinColumn(name = "parent_id")
   private Category categoryParent;
 
-  @ManyToMany(mappedBy = "categories",
-          fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Product> products;
 }

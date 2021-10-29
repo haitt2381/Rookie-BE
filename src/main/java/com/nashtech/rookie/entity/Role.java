@@ -9,15 +9,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 @Entity
 @Table(name = "roles")
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @Column(name = "id")
+  private int id;
 
-    @Column(name = "name")
-    private String name;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "name")
+  private URole name;
 }
