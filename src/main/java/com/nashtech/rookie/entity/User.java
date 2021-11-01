@@ -71,9 +71,8 @@ public class User implements Serializable, UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return roles.stream()
-            .map(role -> new SimpleGrantedAuthority(
-                    role.getName().name()
-            )).collect(Collectors.toList());
+        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -97,11 +96,11 @@ public class User implements Serializable, UserDetails {
   }
 
   @Override
-  public boolean equals(Object o){
-    if(this == o){
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if(o == null || getClass() != o.getClass()){
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
     return Objects.equals(id, ((User) o).getId());

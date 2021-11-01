@@ -1,7 +1,10 @@
 package com.nashtech.rookie.service.Impl;
 
+import com.nashtech.rookie.constant.ErrorMessage;
+import com.nashtech.rookie.dto.request.RegisterRequest;
 import com.nashtech.rookie.entity.User;
 import com.nashtech.rookie.dto.response.UserResponse;
+import com.nashtech.rookie.exception.DuplicateDataException;
 import com.nashtech.rookie.repository.UserRepository;
 import com.nashtech.rookie.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -11,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
 @Service
@@ -48,6 +52,13 @@ public class UserServiceImpl implements IUserService {
         User user = null;
         userRepository.delete(user);
         return user;
+    }
+
+    @Override
+    public void registerUser(RegisterRequest registerRequest) {
+        if(userRepository.existsByUsername(registerRequest.getUsername())){
+            throw new DuplicateDataException(ErrorMessage.ERROR_DUPLICATE_USERNAME.name());
+        }
     }
 
     @Override

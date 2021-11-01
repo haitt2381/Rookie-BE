@@ -1,6 +1,7 @@
 package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.config.jwt.JwtProvider;
+import com.nashtech.rookie.constant.ErrorMessage;
 import com.nashtech.rookie.dto.request.LoginForm;
 import com.nashtech.rookie.dto.wrapper.AbstractResponse;
 import com.nashtech.rookie.dto.wrapper.SuccessResponse;
@@ -17,6 +18,7 @@ import com.nashtech.rookie.dto.response.TokenRefreshResponse;
 import com.nashtech.rookie.repository.RoleRepository;
 import com.nashtech.rookie.repository.UserRepository;
 import com.nashtech.rookie.service.IRefreshTokenService;
+import com.nashtech.rookie.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +41,7 @@ import java.util.stream.Collectors;
 public class AuthController {
 
   AuthenticationManager authenticationManager;
+  IUserService userService;
   UserRepository userRepository;
   RoleRepository roleRepository;
   PasswordEncoder encoder;
@@ -93,9 +97,11 @@ public class AuthController {
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 
+    userService.registerUser(registerRequest);
+
     if (userRepository.existsByUsername(registerRequest.getUsername())) {
-      return ResponseEntity.badRequest()
-          .body(new MessageResponse("Error: Username is already taken!"));
+      return  ResponseEntity.badRequest()
+          .body(new MessageResponse(ErrorMessage.ERROR_DUPLICATE_USERNAME.name()));
     }
 
     if (userRepository.existsByEmail(registerRequest.getEmail())) {
