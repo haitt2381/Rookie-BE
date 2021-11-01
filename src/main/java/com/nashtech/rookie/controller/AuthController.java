@@ -4,12 +4,12 @@ import com.nashtech.rookie.config.jwt.JwtProvider;
 import com.nashtech.rookie.dto.request.LoginForm;
 import com.nashtech.rookie.dto.wrapper.AbstractResponse;
 import com.nashtech.rookie.dto.wrapper.SuccessResponse;
-import com.nashtech.rookie.entity.URole;
+import com.nashtech.rookie.constant.URole;
 import com.nashtech.rookie.exception.TokenRefreshException;
 import com.nashtech.rookie.entity.RefreshToken;
 import com.nashtech.rookie.entity.Role;
 import com.nashtech.rookie.entity.User;
-import com.nashtech.rookie.dto.request.SignupRequest;
+import com.nashtech.rookie.dto.request.RegisterRequest;
 import com.nashtech.rookie.dto.request.TokenRefreshRequest;
 import com.nashtech.rookie.dto.response.JwtResponse;
 import com.nashtech.rookie.dto.response.MessageResponse;
@@ -17,7 +17,7 @@ import com.nashtech.rookie.dto.response.TokenRefreshResponse;
 import com.nashtech.rookie.repository.RoleRepository;
 import com.nashtech.rookie.repository.UserRepository;
 import com.nashtech.rookie.service.IRefreshTokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,22 +32,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  @Autowired AuthenticationManager authenticationManager;
-
-  @Autowired UserRepository userRepository;
-
-  @Autowired RoleRepository roleRepository;
-
-  @Autowired PasswordEncoder encoder;
-
-  @Autowired JwtProvider jwtProvider;
-
-  @Autowired IRefreshTokenService refreshTokenService;
+  AuthenticationManager authenticationManager;
+  UserRepository userRepository;
+  RoleRepository roleRepository;
+  PasswordEncoder encoder;
+  JwtProvider jwtProvider;
+  IRefreshTokenService refreshTokenService;
 
   @PostMapping("/login")
   AbstractResponse authenticateUser(@Valid @RequestBody LoginForm loginForm) {
@@ -80,8 +75,7 @@ public class AuthController {
   @PostMapping("/refreshToken")
   AbstractResponse refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
     String requestRefreshToken = request.getRefreshToken();
-
-    refreshTokenService
+    return refreshTokenService
         .findByToken(requestRefreshToken)
         .map(refreshTokenService::verifyExpiration)
         .map(RefreshToken::getUser)
@@ -93,19 +87,18 @@ public class AuthController {
         .orElseThrow(
             () ->
                 new TokenRefreshException(
-                    requestRefreshToken, "Refresh token is not in database!"));
-
-    return null;
+                    "Failed for " + requestRefreshToken + ":Refresh token is not in database!"));
   }
 
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+  @PostMapping("/register")
+  public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+
+    if (userRepository.existsByUsername(registerRequest.getUsername())) {
       return ResponseEntity.badRequest()
           .body(new MessageResponse("Error: Username is already taken!"));
     }
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+    if (userRepository.existsByEmail(registerRequest.getEmail())) {
       return ResponseEntity.badRequest()
           .body(new MessageResponse("Error: Email is already in use!"));
     }
@@ -113,11 +106,11 @@ public class AuthController {
     // Create new user's account
     User user =
         new User(
-            signUpRequest.getUsername(),
-            signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()));
+                registerRequest.getUsername(),
+                registerRequest.getEmail(),
+            encoder.encode(registerRequest.getPassword()));
 
-    Set<String> strRoles = signUpRequest.getRole();
+    Set<String> strRoles = registerRequest.getRole();
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {

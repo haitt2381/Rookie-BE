@@ -47,7 +47,7 @@ public class User implements Serializable, UserDetails {
   @Column(name = "active")
   private boolean active;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "users_roles",
       joinColumns = @JoinColumn(name = "user_id"),
@@ -73,7 +73,7 @@ public class User implements Serializable, UserDetails {
     return roles.stream()
             .map(role -> new SimpleGrantedAuthority(
                     role.getName().name()
-            )).collect(Collectors.toSet());
+            )).collect(Collectors.toList());
   }
 
   @Override

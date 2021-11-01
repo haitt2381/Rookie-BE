@@ -1,9 +1,10 @@
-package com.nashtech.rookie.controller;
+package com.nashtech.rookie.controller.user;
 
 import com.nashtech.rookie.entity.User;
 import com.nashtech.rookie.dto.response.UserResponse;
 import com.nashtech.rookie.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,15 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin/users")
 public class UserController {
-    IUserService userService;
-
-    public UserController(IUserService userService) {
-        this.userService = userService;
-    }
+    final IUserService userService;
 
     @Operation(summary = "Create a user",
                 description = "Returns a user created, just admin role")

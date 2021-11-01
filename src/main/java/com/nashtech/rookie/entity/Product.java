@@ -58,6 +58,8 @@ public class Product {
   @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<ProductDetail> productDetails;
 
+
+
   public void addCategory(Category category) {
     if (categories == null) categories = new ArrayList<>();
     categories.add(category);

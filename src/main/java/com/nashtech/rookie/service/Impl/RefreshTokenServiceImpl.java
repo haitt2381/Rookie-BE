@@ -17,45 +17,46 @@ import java.util.UUID;
 @Service
 public class RefreshTokenServiceImpl implements IRefreshTokenService {
 
-    @Value("${rookie.app.jwtRefestExpirationMs}")
-    private Long refreshTokenDurationMs;
+  @Value("${rookie.app.jwtRefreshExpirationMs}")
+  private Long refreshTokenDurationMs;
 
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
+  @Autowired private RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Override
-    public Optional<RefreshToken> findByToken(String token) {
-        return refreshTokenRepository.findByToken(token);
+  @Override
+  public Optional<RefreshToken> findByToken(String token) {
+    return refreshTokenRepository.findByToken(token);
+  }
+
+  @Override
+  public RefreshToken createRefreshToken(Long userId) {
+    RefreshToken refreshToken = new RefreshToken();
+
+    refreshToken.setUser(userRepository.findById(userId).get());
+    refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+    refreshToken.setToken(UUID.randomUUID().toString());
+
+    refreshToken = refreshTokenRepository.save(refreshToken);
+    return refreshToken;
+  }
+
+  @Override
+  public RefreshToken verifyExpiration(RefreshToken token) {
+    if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+      refreshTokenRepository.delete(token);
+      throw new TokenRefreshException(
+          "Failed for "
+              + token.getToken()
+              + ": Refresh token was expired. Please make a new signIn request");
     }
 
-    @Override
-    public RefreshToken createRefreshToken(Long userId) {
-        RefreshToken refreshToken = new RefreshToken();
+    return token;
+  }
 
-        refreshToken.setUser(userRepository.findById(userId).get());
-        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
-        refreshToken.setToken(UUID.randomUUID().toString());
-
-        refreshToken = refreshTokenRepository.save(refreshToken);
-        return refreshToken;
-    }
-
-    @Override
-    public RefreshToken verifyExpiration(RefreshToken token) {
-        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
-            refreshTokenRepository.delete(token);
-            throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signIn request");
-        }
-
-        return token;
-    }
-
-    @Override
-    @Transactional
-    public int deleteByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
-    }
+  @Override
+  @Transactional
+  public int deleteByUserId(Long userId) {
+    return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+  }
 }

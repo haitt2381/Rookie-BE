@@ -1,5 +1,6 @@
 package com.nashtech.rookie.entity;
 
+import com.nashtech.rookie.constant.URole;
 import lombok.*;
 
 import javax.persistence.*;

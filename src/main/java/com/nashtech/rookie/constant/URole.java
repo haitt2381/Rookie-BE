@@ -1,4 +1,4 @@
-package com.nashtech.rookie.entity;
+package com.nashtech.rookie.constant;
 
 public enum URole {
     ROLE_CUSTOMER,
