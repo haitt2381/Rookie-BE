@@ -1,4 +1,4 @@
-package com.nashtech.rookie.payload.response;
+package com.nashtech.rookie.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

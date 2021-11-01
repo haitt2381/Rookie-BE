@@ -1,11 +1,14 @@
 package com.nashtech.rookie.service.Impl;
 
 import com.nashtech.rookie.entity.User;
-import com.nashtech.rookie.payload.response.UserResponse;
+import com.nashtech.rookie.dto.response.UserResponse;
 import com.nashtech.rookie.repository.UserRepository;
 import com.nashtech.rookie.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +47,16 @@ public class UserServiceImpl implements IUserService {
 //        User user = findById(id);
         User user = null;
         userRepository.delete(user);
+        return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "User not found with username: "+username));
+
         return user;
     }
 }

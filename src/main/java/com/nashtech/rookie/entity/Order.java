@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 public class Order {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "id", nullable = false)
   private Integer id;
 

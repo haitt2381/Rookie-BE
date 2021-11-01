@@ -1,9 +1,8 @@
 package com.nashtech.rookie.controller;
 
 import com.nashtech.rookie.entity.User;
-import com.nashtech.rookie.payload.response.UserResponse;
+import com.nashtech.rookie.dto.response.UserResponse;
 import com.nashtech.rookie.service.IUserService;
-import com.nashtech.rookie.service.Impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

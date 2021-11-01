@@ -1,6 +1,6 @@
-package com.nashtech.rookie.jwt;
+package com.nashtech.rookie.config.jwt;
 
-import com.nashtech.rookie.service.Impl.UserDetailsImpl;
+import com.nashtech.rookie.entity.User;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+public class JwtProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     @Value("${rookie.app.jwtSecret}")
     private String jwtSecret;
 
@@ -20,7 +20,7 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication){
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        User userPrincipal = (User) authentication.getPrincipal();
 
         return generateTokenFromUsername(userPrincipal.getUsername());
     }

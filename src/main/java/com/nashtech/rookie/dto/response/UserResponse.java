@@ -1,4 +1,4 @@
-package com.nashtech.rookie.payload.response;
+package com.nashtech.rookie.dto.response;
 
 import com.nashtech.rookie.entity.Role;
 import lombok.AllArgsConstructor;

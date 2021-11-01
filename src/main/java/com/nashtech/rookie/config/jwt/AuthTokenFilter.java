@@ -1,6 +1,6 @@
-package com.nashtech.rookie.jwt;
+package com.nashtech.rookie.config.jwt;
 
-import com.nashtech.rookie.service.Impl.UserDetailsServiceImpl;
+import com.nashtech.rookie.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtProvider jwtUtils;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private IUserService userService;
 
     private static final Logger logger =
             LoggerFactory.getLogger(AuthTokenFilter.class);
@@ -38,7 +38,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
                 UserDetails userDetails =
-                        userDetailsService.loadUserByUsername(username);
+                        userService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails, null,

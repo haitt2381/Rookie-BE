@@ -2,8 +2,8 @@ package com.nashtech.rookie.config;
 
 
 import com.nashtech.rookie.exception.AuthEntryPointJwt;
-import com.nashtech.rookie.jwt.AuthTokenFilter;
-import com.nashtech.rookie.service.Impl.UserDetailsServiceImpl;
+import com.nashtech.rookie.config.jwt.AuthTokenFilter;
+import com.nashtech.rookie.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    IUserService userService;
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder authManagerBuilder)
             throws Exception {
         authManagerBuilder
-                .userDetailsService(userDetailsService)
+                .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
     }
 

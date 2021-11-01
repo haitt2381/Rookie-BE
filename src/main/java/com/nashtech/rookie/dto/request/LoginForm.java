@@ -1,4 +1,4 @@
-package com.nashtech.rookie.payload.request;
+package com.nashtech.rookie.dto.request;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @ToString
 
-public class LoginRequest {
+public class LoginForm {
 
     @NotBlank
     private String username;

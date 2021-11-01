@@ -1,10 +1,14 @@
 package com.nashtech.rookie.entity;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -13,7 +17,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable, UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "id")
@@ -62,5 +66,44 @@ public class User {
 
   public void addRole(Role role) {
     this.roles.add(role);
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(
+                    role.getName().name()
+            )).collect(Collectors.toSet());
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return active;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return active;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return active;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return active;
+  }
+
+  @Override
+  public boolean equals(Object o){
+    if(this == o){
+      return true;
+    }
+    if(o == null || getClass() != o.getClass()){
+      return false;
+    }
+    return Objects.equals(id, ((User) o).getId());
   }
 }
