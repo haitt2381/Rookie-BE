@@ -11,9 +11,13 @@ import org.springframework.http.HttpStatus;
 public final class SuccessResponse<S> extends AbstractResponse{
     private S data;
 
-    public SuccessResponse(S data){
-        super(HttpStatus.OK.value());
+    public SuccessResponse(S data, String message){
+        super(HttpStatus.OK.value(), message);
         this.data = data;
+    }
+
+    public SuccessResponse(String message){
+        super(HttpStatus.OK.value(), message);
     }
 
     public SuccessResponse(int statusCode, S data){
