@@ -6,6 +6,7 @@ public enum ErrorMessage {
     ERROR_DUPLICATE_USERNAME,
     ERROR_DUPLICATE_EMAIL,
     ERROR_LOGIN_FAIL,
+    ERROR_NOT_FOUND_USER,
 
     //Role
     ERROR_NOT_FOUND_ROLE

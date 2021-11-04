@@ -15,6 +15,7 @@ import com.nashtech.rookie.dto.response.TokenRefreshResponse;
 import com.nashtech.rookie.service.IRefreshTokenService;
 import com.nashtech.rookie.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -64,7 +65,12 @@ public class AuthController {
             userDetails.getEmail(),
             roles);
 
-    return new SuccessResponse(jwtResponse, SuccessMessage.SUCCESS_LOGIN_USER.name());
+    SuccessResponse successResponse = new SuccessResponse();
+    successResponse.setData(jwtResponse);
+    successResponse.setMessage(SuccessMessage.SUCCESS_LOGIN_USER.name());
+    successResponse.setStatusCode(HttpStatus.OK.value());
+
+    return successResponse;
   }
 
   @PostMapping("/refreshToken")
@@ -77,9 +83,12 @@ public class AuthController {
         .map(
             user -> {
               String token = jwtProvider.generateTokenFromUsername(user.getUsername());
-              return new SuccessResponse(
-                  new TokenRefreshResponse(token, requestRefreshToken),
-                  SuccessMessage.SUCCESS_GET_REFRESH_TOKEN.name());
+
+              SuccessResponse successResponse = new SuccessResponse();
+              successResponse.setData(new TokenRefreshResponse(token, requestRefreshToken));
+              successResponse.setMessage(SuccessMessage.SUCCESS_GET_REFRESH_TOKEN.name());
+              successResponse.setStatusCode(HttpStatus.OK.value());
+              return successResponse;
             })
         .orElseThrow(
             () ->
@@ -91,6 +100,10 @@ public class AuthController {
   AbstractResponse registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
     registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
     userService.registerUser(registerRequest);
-    return new SuccessResponse(SuccessMessage.SUCCESS_REGISTER_USER.name());
+
+    SuccessResponse successResponse = new SuccessResponse();
+    successResponse.setMessage(SuccessMessage.SUCCESS_REGISTER_USER.name());
+    successResponse.setStatusCode(HttpStatus.OK.value());
+    return successResponse;
   }
 }
